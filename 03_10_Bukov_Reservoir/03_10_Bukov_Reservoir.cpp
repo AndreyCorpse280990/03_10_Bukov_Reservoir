@@ -7,7 +7,7 @@ class Reservior
     private:
         std::string name;
         int width; // ширина
-        int depth; // глубина
+        int length; // длина
         int maxDepth; // максимальная глубина
     
     public:
@@ -15,31 +15,37 @@ class Reservior
         Reservior();
 
         // Конструктор с параметрами
-        Reservior(std::string nameP, int widthP, int depthP, int maxDepthP);
+        Reservior(std::string nameP, int widthP, int lengthP, int maxDepthP);
 
         // Метод для вычисления объёма водоёма
         int volumeReservior() const
         {
-            return getWidth() * getDepth() * getMaxDepth();
+            return getWidth() * getLength() * getMaxDepth();
+        }
+
+        // площадь водной поверхности
+        int square() const
+        {
+            return getWidth() * getLength();
         }
 
         // Геттеры
         std::string getName() const { return name;}
         int getWidth() const { return width;}
-        int getDepth() const { return depth;}
+        int getLength() const { return length;}
         int getMaxDepth() const { return maxDepth;}
 
 
 };
 
 // Релизация конструктора по умолчанию
-Reservior::Reservior() : name("") ,width(0), depth(0), maxDepth(0)
+Reservior::Reservior() : name("") ,width(0), length(0), maxDepth(0)
 {
     std::cout << "Конструктор Reservior по умолчанию отработал" << ", по адресу " << this << std::endl;
 }
 
 // Реализация конструктора с параметрами
-Reservior::Reservior(std::string nameP, int widthP, int depthP, int maxDepthP) : name(nameP), width(widthP), depth(depthP), maxDepth(maxDepthP)
+Reservior::Reservior(std::string nameP, int widthP, int lengthP, int maxDepthP) : name(nameP), width(widthP), length(lengthP), maxDepth(maxDepthP)
 {
     std::cout << "Конструктор Reservior с параметрами отработал" << ", по адресу " << this << std::endl;
 }
@@ -48,7 +54,8 @@ Reservior::Reservior(std::string nameP, int widthP, int depthP, int maxDepthP) :
 int main()
 {
     setlocale(LC_ALL, "rus");
-    Reservior sea("Black", 580, 1240, 2210);
-    std::cout << "Имя: " << sea.getName() << ", Ширина: " << sea.getWidth() << ", Глубина: " << sea.getDepth() << ", Максимальная глубина: " << sea.getMaxDepth() << std::endl;
+    Reservior sea("Black", 580, 1150, 2210);
+    std::cout << "Имя: " << sea.getName() << ", Ширина: " << sea.getWidth() << ", Длина: " << sea.getLength() << ", Максимальная глубина: " << sea.getMaxDepth() << std::endl;
+    std::cout << "Объём водоёма : " << sea.volumeReservior() <<"\n" << std::endl;
     return 0;
 }
