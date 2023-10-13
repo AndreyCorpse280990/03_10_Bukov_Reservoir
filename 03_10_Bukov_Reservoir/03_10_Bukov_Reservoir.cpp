@@ -1,20 +1,54 @@
-﻿// 03_10_Bukov_Reservoir.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
-//
+﻿#include <iostream>
+#include <string>
 
-#include <iostream>
+
+class Reservior
+{
+    private:
+        std::string name;
+        int width; // ширина
+        int depth; // глубина
+        int maxDepth; // максимальная глубина
+    
+    public:
+        // конструктор по умолчанию
+        Reservior();
+
+        // Конструктор с параметрами
+        Reservior(std::string nameP, int widthP, int depthP, int maxDepthP);
+
+        // Метод для вычисления объёма водоёма
+        int volumeReservior() const
+        {
+            return getWidth() * getDepth() * getMaxDepth();
+        }
+
+        // Геттеры
+        std::string getName() const { return name;}
+        int getWidth() const { return width;}
+        int getDepth() const { return depth;}
+        int getMaxDepth() const { return maxDepth;}
+
+
+};
+
+// Релизация конструктора по умолчанию
+Reservior::Reservior() : name("") ,width(0), depth(0), maxDepth(0)
+{
+    std::cout << "Конструктор Reservior по умолчанию отработал" << ", по адресу " << this << std::endl;
+}
+
+// Реализация конструктора с параметрами
+Reservior::Reservior(std::string nameP, int widthP, int depthP, int maxDepthP) : name(nameP), width(widthP), depth(depthP), maxDepth(maxDepthP)
+{
+    std::cout << "Конструктор Reservior с параметрами отработал" << ", по адресу " << this << std::endl;
+}
+
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    setlocale(LC_ALL, "rus");
+    Reservior sea("Black", 580, 1240, 2210);
+    std::cout << "Имя: " << sea.getName() << ", Ширина: " << sea.getWidth() << ", Глубина: " << sea.getDepth() << ", Максимальная глубина: " << sea.getMaxDepth() << std::endl;
+    return 0;
 }
-
-// Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
-// Отладка программы: F5 или меню "Отладка" > "Запустить отладку"
-
-// Советы по началу работы 
-//   1. В окне обозревателя решений можно добавлять файлы и управлять ими.
-//   2. В окне Team Explorer можно подключиться к системе управления версиями.
-//   3. В окне "Выходные данные" можно просматривать выходные данные сборки и другие сообщения.
-//   4. В окне "Список ошибок" можно просматривать ошибки.
-//   5. Последовательно выберите пункты меню "Проект" > "Добавить новый элемент", чтобы создать файлы кода, или "Проект" > "Добавить существующий элемент", чтобы добавить в проект существующие файлы кода.
-//   6. Чтобы снова открыть этот проект позже, выберите пункты меню "Файл" > "Открыть" > "Проект" и выберите SLN-файл.
