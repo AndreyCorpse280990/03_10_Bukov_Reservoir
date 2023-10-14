@@ -11,7 +11,6 @@ class Reservior
         int length; // длина
         double maxDepth; // максимальная глубина
         
-    
     public:
         // конструктор по умолчанию
         Reservior();
@@ -36,9 +35,6 @@ class Reservior
 
         // Метод для отображения информации о водоёме
         void displayInfo() const;
-
-        // создание динамического массива
-        static Reservior** CreateArray(int numRows, int numCols);
 
         // Геттеры
         std::string getName() const { return name;}
@@ -115,7 +111,6 @@ void Reservior::AreSameVolume(const Reservior& sea1, const Reservior& sea2)
     }
 }
 
-
 // Запись информации об объекте в текстовый файл
 void Reservior::saveToFile(std::ofstream& file) const 
 {
@@ -141,23 +136,12 @@ void Reservior::displayInfo() const
     std::cout << "Площадь водной поверхности: " << square() << " м²" << std::endl;
 }
 
-Reservior** Reservior::CreateArray(int numRows, int numCols)
-{
-    Reservior** array = new Reservior*[numRows];
-    for (int i = 0; i < numRows; ++i) {
-        array[i] = new Reservior[numCols];
-    }
-    return array;
-}
 
 int main()
 {
     setlocale(LC_ALL, "rus");
-    const int numRows = 3;
-    const int numCols = 2;
-
-    // Создание двумерного динамического массива объектов Reservior
-    Reservior** reservoirArray = Reservior::CreateArray(numRows, numCols);
+    const int numReservoirs = 6;
+    Reservior* reservoirs = new Reservior[numReservoirs];
 
     // Заполнение массива объектами
     Reservior sea1 ("Black Sea", "Sea", 580, 1150, 2210);
@@ -167,7 +151,13 @@ int main()
     Reservior pool1 ("Sadko Pool", "Pool", 3, 2, 2);
     Reservior pool2 ("Home Pool", "Pool", 5, 4, 3);
 
-    
+    reservoirs[0] = sea1;
+    reservoirs[1] = sea2;
+    reservoirs[2] = pond1;
+    reservoirs[3] = pond2;
+    reservoirs[4] = pool1;
+    reservoirs[5] = pool2;
+
     // Вызов методов класса для сравнения и отображения информации
     Reservior::AreSameType(sea1, sea2);
     Reservior::AreSameType(pond1, pool1);
@@ -175,7 +165,16 @@ int main()
     Reservior::AreSameVolume(pond2, sea1);
     Reservior::AreSameVolume(pool2, pool1);
 
+    // Сохранение информации об объектах в текстовыЙ файл
+    std::ofstream file("Reservior.txt");
+    for (int i = 0; i < numReservoirs; i++)
+    {
+        reservoirs[i].saveToFile(file); // Используйте метод для записи в файл
+    }
+    file.close();
+    std::cout << "Информация о водоемах сохранена в файл Reservior.txt." << std::endl;
 
+    delete[] reservoirs;
 
     return 0;
 
