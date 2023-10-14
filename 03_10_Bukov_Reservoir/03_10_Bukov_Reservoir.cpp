@@ -1,6 +1,6 @@
 ﻿#include <iostream>
 #include <string>
-
+#include <fstream>
 
 class Reservior
 {
@@ -29,7 +29,16 @@ class Reservior
         static bool AreSameType(const Reservior& sea1, const Reservior& sea2);
 
         // Сравнение площади двух водоемов
-        static void AreSameVolume(const Reservior& sea1, const Reservior sea2);
+        static void AreSameVolume(const Reservior& sea1, const Reservior& sea2);
+
+        // Запись информации об объекте в текстовый файл
+        void saveToFile(std::ofstream& file) const;
+
+        // Метод для отображения информации о водоёме
+        void displayInfo() const;
+
+        // создание динамического массива
+        static Reservior** CreateArray(int numRows, int numCols);
 
         // Геттеры
         std::string getName() const { return name;}
@@ -37,6 +46,7 @@ class Reservior
         int getWidth() const { return width;}
         int getLength() const { return length;}
         int getMaxDepth() const { return maxDepth;}
+
 };
 
 // Релизация конструктора по умолчанию
@@ -78,47 +88,94 @@ bool Reservior::AreSameType(const Reservior& sea1, const Reservior& sea2)
     return result;
 }
 
-
-// сравнение типов
- void Reservior::AreSameVolume(const Reservior& sea1, const Reservior sea2)
+// сравнение площади
+void Reservior::AreSameVolume(const Reservior& sea1, const Reservior& sea2)
 {
-    if(sea1.getType() == sea2.getType())
+    if (sea1.getType() == sea2.getType())
     {
-        if (sea1.square() == sea2.square())
+        int square1 = sea1.square();
+        int square2 = sea2.square();
+
+        if (square1 == square2)
         {
-            std::cout << "Водоёмы " << sea1.getName() << " и " << sea2.getName() << " однаковы по площади." << std::endl;
+            std::cout << "Площади водоемов " << sea1.getName() << " и " << sea2.getName() << " равны." << std::endl;
         }
-        else if (sea1.square() > sea2.square()) 
+        else if (square1 > square2)
         {
-            std::cout << "Водоём " << sea1.getName() << " больше по площади, чем " << sea2.getName() << std::endl;
+            std::cout << "Площадь водоема " << sea1.getName() << " больше, чем у " << sea2.getName() << "." << std::endl;
         }
         else
         {
-            std::cout << "Водоём " << sea2.getName() << " меньше по площади, чем " << sea1.getName() << std::endl;
+            std::cout << "Площадь водоема " << sea2.getName() << " больше, чем у " << sea1.getName() << "." << std::endl;
         }
     }
     else
     {
-        std::cout << "Водоёмы " << sea1.getName() << " и " << sea2.getName() << " не относятся к одному типу" << std::endl;
+        std::cout << "Водоемы " << sea1.getName() << " и " << sea2.getName() << " относятся к разным типам." << std::endl;
     }
 }
 
 
+// Запись информации об объекте в текстовый файл
+void Reservior::saveToFile(std::ofstream& file) const 
+{
+    file << "Название: " << name << std::endl;
+    file << "Тип: " << type << std::endl;
+    file << "Ширина: " << width << " м" << std::endl;
+    file << "Длина: " << length << " м" << std::endl;
+    file << "Максимальная глубина: " << maxDepth << " м" << std::endl;
+    file << "Объем: " << volumeReservior() << " м³" << std::endl;
+    file << "Площадь водной поверхности: " << square() << " м²" << std::endl;
+    file << "----------------------------------" << std::endl;
+}
+
+// Метод для отображения информации о водоёме
+void Reservior::displayInfo() const 
+{
+    std::cout << "Название: " << name << std::endl;
+    std::cout << "Тип: " << type << std::endl;
+    std::cout << "Ширина: " << width << " м" << std::endl;
+    std::cout << "Длина: " << length << " м" << std::endl;
+    std::cout << "Максимальная глубина: " << maxDepth << " м" << std::endl;
+    std::cout << "Объем: " << volumeReservior() << " м³" << std::endl;
+    std::cout << "Площадь водной поверхности: " << square() << " м²" << std::endl;
+}
+
+Reservior** Reservior::CreateArray(int numRows, int numCols)
+{
+    Reservior** array = new Reservior*[numRows];
+    for (int i = 0; i < numRows; ++i) {
+        array[i] = new Reservior[numCols];
+    }
+    return array;
+}
+
 int main()
 {
     setlocale(LC_ALL, "rus");
-    Reservior sea1("Black", "sea", 580, 1150, 2210);
-    Reservior sea2("Baltic", "sea", 193, 1600, 470);
-    Reservior pond1("Round", "pond", 8, 14, 4);
-    Reservior pond2("Big", "pond", 30, 15, 6);
-    Reservior pool1("Sadko", "pool", 3, 2, 2);
-    Reservior pool2("Home", "pool", 5, 4, 3);
+    const int numRows = 3;
+    const int numCols = 2;
 
+    // Создание двумерного динамического массива объектов Reservior
+    Reservior** reservoirArray = Reservior::CreateArray(numRows, numCols);
+
+    // Заполнение массива объектами
+    Reservior sea1 ("Black Sea", "Sea", 580, 1150, 2210);
+    Reservior sea2 ("Baltic Sea", "Sea", 193, 1600, 470);
+    Reservior pond1 ("Round Pond", "Pond", 8, 14, 4);
+    Reservior pond2 ("Big Pond", "Pond", 30, 15, 6);
+    Reservior pool1 ("Sadko Pool", "Pool", 3, 2, 2);
+    Reservior pool2 ("Home Pool", "Pool", 5, 4, 3);
+
+    
+    // Вызов методов класса для сравнения и отображения информации
     Reservior::AreSameType(sea1, sea2);
-    Reservior::AreSameType(pool1, pond2);
+    Reservior::AreSameType(pond1, pool1);
 
-    Reservior::AreSameVolume(sea1, sea2);
-    Reservior::AreSameVolume(pond1, pool2);
+    Reservior::AreSameVolume(pond2, sea1);
+    Reservior::AreSameVolume(pool2, pool1);
+
+
 
     return 0;
 
