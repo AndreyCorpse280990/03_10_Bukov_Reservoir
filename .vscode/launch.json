@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": ".",
-      "program": "build/Debug/outDebug",
+      "cwd": "e:/programming/Visual Studio/repos/03_10_Bukov_Reservoir/03_10_Bukov_Reservoir",
+      "program": "e:/programming/Visual Studio/repos/03_10_Bukov_Reservoir/03_10_Bukov_Reservoir/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
